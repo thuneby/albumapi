@@ -19,7 +19,7 @@ resource "azurerm_container_app" "application" {
 
   template {
     container {
-      name   = "examplecontainerapp"
+      name   = "albumapi"
       image  = "crthunebyinfrastructure.azurecr.io/albumapi:latest"
       cpu    = 0.25
       memory = "0.5Gi"
