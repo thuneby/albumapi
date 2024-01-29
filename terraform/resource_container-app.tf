@@ -20,13 +20,13 @@ resource "azurerm_container_app" "application" {
   template {
     container {
       name   = "examplecontainerapp"
-      image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+      image  = "crthunebyinfrastructure.azurecr.io/albumapi:latest"
       cpu    = 0.25
       memory = "0.5Gi"
-      liveness_probe {
-        port      = 8080
-        transport = "HTTP"
-      }
+      # liveness_probe {
+      #   port      = 8080
+      #   transport = "HTTP"
+      # }
     }
   }
 
