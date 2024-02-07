@@ -28,6 +28,11 @@ resource "azurerm_container_app" "application" {
         transport = "HTTP"
       }
     }
+
+    http_scale_rule {
+      name                = "http"
+      concurrent_requests = 10
+    }
   }
 
   ingress {
