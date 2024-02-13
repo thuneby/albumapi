@@ -1,12 +1,16 @@
+locals {
+  app_name = "albumapi"
+}
+
 resource "azurecaf_name" "app_name" {
-  name          = "albumapi"
+  name          = local.app_name
   resource_type = "azurerm_container_app"
   clean_input   = true
 }
 
 resource "azurerm_user_assigned_identity" "albumapi" {
   location            = data.azurerm_resource_group.applications.location
-  name                = "id-albumapi"
+  name                = "id-${local.app_name}"
   resource_group_name = data.azurerm_resource_group.applications.name
 }
 
@@ -29,7 +33,7 @@ resource "azurerm_container_app" "application" {
 
   template {
     container {
-      name   = "albumapi"
+      name   = local.app_name
       image  = "crthunebyinfrastructure.azurecr.io/albumapi:latest"
       cpu    = 0.25
       memory = "0.5Gi"
@@ -70,6 +74,12 @@ resource "azurerm_container_app" "application" {
     value = data.azurerm_container_registry.acr.admin_password
   }
 
+  dapr {
+    app_id       = local.app_name
+    app_port     = 8080
+    app_protocol = "http"
+  }
+
   lifecycle {
     ignore_changes = [
       tags
@@ -84,13 +94,4 @@ resource "azurerm_container_app" "application" {
 
 }
 
-# resource "azurerm_role_assignment" "container_registry_acrpull_system_assigned" {
-#   role_definition_name = "AcrPull"
-#   scope                = data.azurerm_container_registry.acr.id
-#   principal_id         = azurerm_container_app.application.identity[0].principal_id
-
-#   depends_on = [
-#     azurerm_container_app.application
-#   ]
-# }
 
