@@ -1,0 +1,20 @@
+name: Validate .NET code
+on:
+  schedule:
+    - cron: '0 0 * * 2'
+  workflow_dispatch:
+  pull_request:
+jobs:
+  validate-dotnet:
+    name: Validate .NET solution
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:8.0
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4     
+      - name: Check .NET version
+        working-directory: ./src
+        run: dotnet --version       
+      - name: Build .NET solution
+        working-directory: ./src
+        run: dotnet build albumapi_csharp.sln
