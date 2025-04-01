@@ -36,4 +36,4 @@ jobs:
           acrName: crthunebyinfrastructure
           containerAppName: ca-albumapi
           resourceGroup: rg-container-apps
-          imageToBuild: crthunebyinfrastructure.azurecr.io/albumapi:latest
+          # imageToBuild: crthunebyinfrastructure.azurecr.io/albumapi:latest
